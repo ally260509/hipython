@@ -15,20 +15,20 @@
 
 ## :orange_circle: What I Do
 
-- 비즈니스 질문을 **의사결정 단위의 문제 정의**로 전환  
-- 팀·조직 성과를 판단하는 **KPI / 평가 프레임 설계**  
-- ERP·데이터 변수를 **경영 판단 언어로 번역**  
+- (현)KPMG Future Academy 8기 과정 진행 중
+- Strategy Planner
+- Brand Manager
+- Consumer Researcher  
 
 ---
 
 ## :yellow_circle: Selected Work
 
-- **팀 성과 평가 프레임워크**  
-  → 행동 신호를 의사결정 KPI로 연결  
-- **ERP 데이터 해석 모델**  
-  → 리포트 신뢰도 및 의사결정 속도 개선  
-- **조직 의사결정 실패 구조 분석**  
-  → 개인 문제가 아닌 구조 문제로 전환  
+- **팀 성과 평가 프레임워크 PRISM**  
+  → 데이터 기반 최적팀 솔루션 제안 프로젝트
+-
+-
+
 
 ---
 
@@ -38,7 +38,11 @@ SQL · Python · BI Tools ·
 
 ---
 
-## :purple_circle:Contact
+## :purple_circle: Education
+
+- 경영학 석사 (공동마케팅의 효과적인 제휴 방식_소비자학연구, 2006년 12월)
+
+## :black_circle: Contact
 
 - Email: your@email.com  
 - LinkedIn: https://linkedin.com/in/yourname  
