@@ -1,0 +1,152 @@
+USE WNTRADE;
+
+-- CROSS JOIN > INNER JOIN
+
+SELECT 부서.부서번호 AS 부서부서번호, 사원.부서번호 AS 사원부서번호, 이름, 부서명
+FROM 부서
+CROSS JOIN 사원
+ON 부서.부서번호 = 사원.부서번호
+WHERE 이름 = '배재용';
+
+-- 주문, 고객 INNER JOIN
+SELECT 주문번호, 고객회사명, 주문일
+FROM 주문 JOIN 고객
+ON 주문.고객번호 = 고객.고객번호
+WHERE 주문.고객번호 = 'ITCWH';
+
+-- 주문, 사원 INNER JOIN 주문번호별 담당자
+SELECT 주문번호, 주문.사원번호, 고객번호, 사원.이름
+FROM 주문 JOIN 사원
+ON 주문.사원번호 = 사원.사원번호;
+
+-- 고객, 제품 > 크로스조인 -> 기준 세울 때 많이 함(모든 경우의 수 다 볼 때)
+SELECT 고객회사명, 제품명
+FROM 고객 JOIN 제품;
+
+-- 고객, 마일리지등급
+
+SELECT 고객.고객회사명, 고객.마일리지, 마일리지등급.등급명
+FROM 고객 JOIN 마일리지등급
+ON 고객.마일리지 BETWEEN 마일리지등급.하한마일리지 AND 마일리지등급.상한마일리지;
+
+use wntrade;
+-- 부서가 없는 사원까지 보는 쿼리
+select 사원번호, 이름, 부서명
+from 사원 left join 부서 #outer 생략 가능
+on 사원.부서번호 = 부서.부서번호
+where 부서.부서번호 is null;
+
+-- 주문 안 한 고객
+select 고객
+from 고객 left join 주문 on 고객.고객번호 = 주문.고객번호
+where 주문.주문번호 is null;
+
+-- 셀프조인
+-- 사원별 상사의 이름
+select 사원.이름, 상사.이름
+from 사원 left join 사원 as 상사
+on 사원.상사번호 = 상사.사원번호
+where 사원.상사번호 = '';
+
+-- subquery
+select 고객번호
+	, 고객회사명
+    , 담당자명
+    , 마일리지
+from 고객
+where 마일리지 = (
+	 select max(마일리지)  
+     from 고객
+); -- 최고 마일리지 값
+
+-- left join
+select A.고객회사명, A.담당자명, A.마일리지, B.고객회사명, B.마일리지
+from 고객 as A
+left join 고객 as B -- 셀프조인
+on A.마일리지 < B.마일리지 -- a의 마일리지 < b.마일리지
+where B.고객번호 Is null
+order by A.마일리지 desc;
+
+-- 주문번호 = 'H0250'인 고객회사명, 담당자명
+-- join 
+select 고객.고객회사명, 고객.담당자명
+from 고객
+inner join 주문
+on 고객.고객번호 = 주문.고객번호
+where 주문번호 = 'H0250';
+
+-- subquery
+select 고객.고객회사명, 고객.담당자명, 고객.고객번호
+from 고객
+where 고객.고객번호 = (
+	select 주문.고객번호
+    from 주문
+    where 주문번호 = 'H0250'
+    );
+
+select 고객.담당자명, 고객.고객회사명, 고객.마일리지
+from 고객
+where 마일리지 > (
+	select min(마일리지)
+    from 고객
+    where 도시 = '부산광역시'
+    );
+
+-- 부산광역시 고객의 주문건수
+select count(*)
+from 주문
+where 고객번호 in(
+	select 고객번호
+    from 고객
+    where 도시 = '부산광역시'
+    );
+
+-- any, all, exist
+select 고객.담당자명, 고객.고객회사명, 고객.마일리지
+from 고객
+where 마일리지 > any(
+	select 마일리지
+    from 고객
+    where 도시 = '부산광역시'
+    ); -- 58 rows / min [5건]보다 크기만 하면 다 나옴
+
+select 고객.담당자명, 고객.고객회사명, 고객.마일리지
+from 고객
+where 마일리지 > all(
+	select 마일리지
+    from 고객
+    where 도시 = '부산광역시'
+    ); -- 17 rows / max [5건]
+
+select 담당자명, 고객회사명, 마일리지
+from 고객 a
+where exists(
+	select 1
+    from 고객 b
+    where 도시 = '부산광역시' and a.마일리지 > b.마일리지
+); -- 58 rows / 
+
+-- 그룹의 조건 having 절 서브쿼리
+select 도시, avg(마일리지) as 평균마일리지, (select avg(마일리지) from 고객) as 전체평균마일리지
+from 고객
+group by 고객.도시
+having avg(마일리지) > (
+	select avg(마일리지)
+    from 고객
+); -- 5 rows
+
+-- from에 들어가는 가상테이블 > 인라인 뷰
+select 담당자명, 고객회사명, 마일리지, 고객.도시, 도시평균마일리지, 도시평균마일리지 - 마일리지 as 갭
+from 고객
+	,(select 도시, avg(마일리지) as 도시평균마일리지
+	from 고객
+	group by 도시
+) as 도시별요약
+where 고객.도시 = 도시별요약.도시;
+
+-- 컬럼 목록에 들어가는 > 스칼라 서브쿼리
+select 도시
+	, avg(마일리지) as 도시평균마일리지
+    , (select avg(마일리지) from 고객) as 전체평균마일리지
+from 고객
+where 

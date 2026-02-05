@@ -24,7 +24,27 @@ SELECT 고객회사명, 제품명
 FROM 고객 JOIN 제품;
 
 -- 고객, 마일리지등급
-
 SELECT 고객.고객회사명, 고객.마일리지, 마일리지등급.등급명
 FROM 고객 JOIN 마일리지등급
 ON 고객.마일리지 BETWEEN 마일리지등급.하한마일리지 AND 마일리지등급.상한마일리지;
+
+use wntrade;
+
+select 도시, avg(마일리지) as 평균마일리지
+from 고객
+group by 도시
+having avg(마일리지) > (select avg(마일리지) from 고객);
+
+select 담당자명
+	,고객회사명
+    , 마일리지
+    , 고객.도시
+    , 도시_평균마일리지
+    , 도시_평균마일리지 - 마일리지 AS 차이
+from 고객
+	,(select 도시
+		,avg(마일리지) AS 도시_평균마일리지
+	from 고객
+    group by 도시
+    ) as 도시별요약
+where 고객.도시 = 도시별요약.도시;
