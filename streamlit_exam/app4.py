@@ -188,3 +188,4 @@ if st.session_state.log:
 
     st.subheader("🧠 평균 집중도")
     st.metric("집중도 평균", round(log_df["집중도점수"].mean(),2))
+    
