@@ -21,3 +21,5 @@ media/
 
 .ipynb_checkpoints/*
 esg_data_test.json
+ml/.claude/worktrees/competent-nash
+object/best_DNN.pth
