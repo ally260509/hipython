@@ -1,0 +1,2 @@
+﻿idx,매물ID,상세링크,error,수집시각
+500,41509101,https://fem.encar.com/cars/detail/41509101?advClickPosition=mweb_mhightlight_g139_t51515&listAdvType=mhighlight&type=detail&view_type=hs_ad,[Errno 13] Permission denied: 'encar_kia_all\\output\\kia_detail_batch.csv',2026-03-15 12:39:25

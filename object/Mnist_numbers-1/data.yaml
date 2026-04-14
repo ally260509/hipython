@@ -1,0 +1,21 @@
+names:
+- '0'
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+- '6'
+- '7'
+- '8'
+- '9'
+nc: 10
+roboflow:
+  license: MIT
+  project: mnist_numbers-m28t1
+  url: https://universe.roboflow.com/allys-workspace-knezs/mnist_numbers-m28t1/dataset/1
+  version: 1
+  workspace: allys-workspace-knezs
+test: ../test/images
+train: ../train/images
+val: ../valid/images

@@ -1,0 +1,22 @@
+{
+    "name": null,
+    "input_variables": [
+        "place",
+        "question",
+        "travel",
+        "when"
+    ],
+    "optional_variables": [],
+    "output_parser": null,
+    "partial_variables": {},
+    "metadata": null,
+    "tags": null,
+    "messages": [
+        {},
+        {},
+        {},
+        {}
+    ],
+    "validate_template": false,
+    "_type": "chat"
+}
